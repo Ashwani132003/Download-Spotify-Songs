@@ -17,8 +17,8 @@ if playlist:
 
         # Set your Spotify API credentials
 
-        client_id = os.getenv('client_id')
-        client_secret = os.getenv('client_secret')
+        client_id = os.getenv('CLIENT_ID')
+        client_secret = os.getenv('CLIENT_SECRET')
 
        
 
