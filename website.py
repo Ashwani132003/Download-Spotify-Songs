@@ -20,8 +20,7 @@ if playlist:
         client_id = os.getenv('CLIENT_ID')
         client_secret = os.getenv('CLIENT_SECRET')
 
-        st.write('client id:',client_id)
-        st.write('client_secret: ',client_secret)
+        
 
        
 
@@ -85,16 +84,18 @@ if playlist:
                         video_stream = yt.streams.get_highest_resolution()
 
                         # Download the video to a specified directory
-                        download_directory = 'Downloaded'
-                        video_stream.download(output_path=download_directory,filename=f"{i[0]} | {i[1]}.mp4")
+                        # download_directory = 'Downloaded'
+                        # video_stream.download(output_path=download_directory,filename=f"{i[0]} | {i[1]}.mp4")
+                        video_stream.download(filename=f"{i[0]} | {i[1]}.mp4")
                     if type=='Audio':
                         audio_stream = yt.streams.filter(only_audio=True, file_extension='mp4').first()
 
                         # Specify the download directory
-                        download_directory = 'Downloaded'
+                        # download_directory = 'Downloaded'
 
                         # Download the audio as MP3 with the desired filename
-                        audio_stream.download(output_path=download_directory, filename=f"{i[0]} | {i[1]}.mp3")
+                        # audio_stream.download(output_path=download_directory, filename=f"{i[0]} | {i[1]}.mp3")
+                        audio_stream.download(filename=f"{i[0]} | {i[1]}.mp3")
                         # print('done')
                     # You can also access various attributes of the video, such as title, description, author, etc.
                     print(f"Video Title: {yt.title}")
