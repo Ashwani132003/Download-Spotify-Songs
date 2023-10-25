@@ -62,50 +62,48 @@ if playlist:
     
 
         downloaded=[]
-        type=st.selectbox('Select Type:',('None','Video','Audio'))
+        type = st.selectbox('Select Type:', ('None', 'Video', 'Audio'))
 
-        if type!='None':
+        if type != 'None':
             for i in tracks_details:
-                try:
-                    i=list(i.items())[0]
-                    search_term = i[0] +' '+ i[1] + 'lyrics'
+                i = list(i.items())[0]
+                search_term = i[0] + ' ' + i[1] + ' lyrics'
+        
+                for _ in range(5):  # Try up to 5 times in case of rate limiting
+                    try:
+                        s = Search(search_term)
+                        if len(s.results) > 0:
+                            first_match_id = s.results[0].video_id
+                            video_id = first_match_id
+                            
+                            url = f'https://www.youtube.com/watch?v={video_id}'
+                            yt = YouTube(url)
+        
+                            if type == 'Video':
+                                video_stream = yt.streams.get_highest_resolution()
+                                video_stream.download()
+                            if type == 'Audio':
+                                audio_stream = yt.streams.filter(only_audio=True, file_extension='mp4').first()
+                                audio_stream.download()
+        
+                            # Log and indicate a successful download
+                            st.write(f"Downloaded: {i[0]} - {i[1]}")
+                            downloaded.append(i[0])
+                            
+                            # Break the retry loop if the download was successful
+                            break
+                        else:
+                            st.error(f"No matching video found for: {search_term}")
+                            break  # Exit the retry loop
+                    except Exception as e:
+                        st.error(f"An error occurred: {str(e)}")
+                        # Wait before retrying
+                        time.sleep(60)  # Wait for 60 seconds before retrying
+                else:
+                    st.error(f"Max retries reached for: {search_term}")
+        
+            st.write('Download Complete')
 
-                    s = Search(search_term)
-                    first_match_id = s.results[0].video_id
-
-                    video_id = first_match_id
-
-                    # Create a YouTube object with the video URL
-                    url = f'https://www.youtube.com/watch?v={video_id}'
-                    yt = YouTube(url)
-
-                    # Get the video stream with the highest resolution (or any other stream you prefer)
-                    if type=='Video':
-                        video_stream = yt.streams.get_highest_resolution()
-
-                        # Download the video to a specified directory
-                        # download_directory = 'Downloaded'
-                        # video_stream.download(output_path=download_directory,filename=f"{i[0]} | {i[1]}.mp4")
-                        video_stream.download(filename=f"{i[0]} | {i[1]}.mp4")
-                    if type=='Audio':
-                        audio_stream = yt.streams.filter(only_audio=True, file_extension='mp4').first()
-
-                        # Specify the download directory
-                        # download_directory = 'Downloaded'
-
-                        # Download the audio as MP3 with the desired filename
-                        # audio_stream.download(output_path=download_directory, filename=f"{i[0]} | {i[1]}.mp3")
-                        audio_stream.download(filename=f"{i[0]} | {i[1]}.mp3")
-                        # print('done')
-                    # You can also access various attributes of the video, such as title, description, author, etc.
-                    print(f"Video Title: {yt.title}")
-                    # print(f"Video Description: {yt.description}")
-                    # print(f"Video Author: {yt.author}")
-
-                    downloaded.append(i[0])
-                except Exception as e:
-                    st.error(f"An error occurred: {str(e)}")
-            st.write('Download Complete')    
     except Exception as e:
         print(e)
         pass        
