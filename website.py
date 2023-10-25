@@ -20,13 +20,11 @@ if playlist:
         client_id = os.getenv('client_id')
         client_secret = os.getenv('client_secret')
 
-        # client_id = '6d7408ab588744b1abf0f4fd26d3a9ef'
-        # client_secret = '1f88c0c309d142ef8cc7f4d16a46e3c1'
+       
 
         # Initialize the Spotify client
         sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=client_id, client_secret=client_secret))
 
-        # playlist_id = '6fzm3nkSSoKLsx0TA9ZuiS'
         playlist_id = playlist.split('playlist/')[1].split('?')[0]
 
                 
