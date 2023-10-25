@@ -20,6 +20,9 @@ if playlist:
         client_id = os.getenv('CLIENT_ID')
         client_secret = os.getenv('CLIENT_SECRET')
 
+        st.write('client id:',client_id)
+        st.write('client_secret: ',client_secret)
+
        
 
         # Initialize the Spotify client
