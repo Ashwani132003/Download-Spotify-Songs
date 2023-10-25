@@ -1,4 +1,4 @@
 spotipy
 streamlit
 pytube
-dotenv
+python-dotenv
