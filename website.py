@@ -36,6 +36,7 @@ if playlist:
         tracks_details=[]
         while True:
             playlist = sp.playlist_tracks(playlist_id, offset=offset, limit=limit)
+            st.write('valid playlist')
             tracks = playlist['items']
             if not tracks:
                 break
@@ -55,7 +56,7 @@ if playlist:
                 print("Artists:", artist)
                 print()  # Separate tracks with an empty line
 
-
+        st.write(len(tracks_details))
     
 
         downloaded=[]
