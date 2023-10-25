@@ -103,7 +103,8 @@ if playlist:
                     # print(f"Video Author: {yt.author}")
 
                     downloaded.append(i[0])
-                except:pass
+                except Exception as e:
+                    st.error(f"An error occurred: {str(e)}")
             st.write('Download Complete')    
     except Exception as e:
         print(e)
